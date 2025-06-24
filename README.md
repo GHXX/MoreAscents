@@ -1,3 +1,4 @@
+![image](https://github.com/user-attachments/assets/766656eb-ee91-4b53-aab4-09ae4d33dad6)
 # MoreAscents
 <sub>[Now with a 15% extra chance to ruin your friendships!](https://medal.tv/games/peak/clips/kywNeEuDhToY494CT?invite=cr-MSxxTUEsMTkwNTA5NDMy)</sub>
 
