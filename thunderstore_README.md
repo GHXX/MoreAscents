@@ -14,4 +14,6 @@ Adds 5 more ascents to the game for those who want to challenge themselves just 
 Ascent 9 - Big Luggage's have a chance to only contain one item.<br>
 Ascent 10 - You're more vulnerable to everything but Injuries, Hunger and Weight.<br>
 Ascent 11 - Helping people up makes you drowsy.<br>
-Ascent 12 - No more Revive Statues.
+Ascent 12 - No more Revive Statues.<br><br>
+
+Chaos 1 - Going unconscious is instant death
