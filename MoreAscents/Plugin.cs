@@ -22,22 +22,16 @@ namespace MoreAscents
             List<AscentData.AscentInstanceData> ascents = ascentData.ascents;
             List<AscentData.AscentInstanceData> newAscents = new List<AscentData.AscentInstanceData>();
 
-            newAscents.Add(ascents[0]);
-            newAscents.Add(ascents[1]);
-            newAscents.Add(ascents[2]);
-            newAscents.Add(ascents[3]);
-            newAscents.Add(ascents[4]);
-            newAscents.Add(ascents[5]);
-            newAscents.Add(ascents[6]);
-            newAscents.Add(ascents[7]);
-            newAscents.Add(ascents[8]);
-            
+            foreach (AscentData.AscentInstanceData data in ascents) {
+                newAscents.Add(data);
+            }
+
             // custom ones
             AscentGimmickHandler.RegisterAscent<FallDamageGimmick>(newAscents);
             AscentGimmickHandler.RegisterAscent<AfflictionGimmick>(newAscents);
             AscentGimmickHandler.RegisterAscent<LuggageGimmick>(newAscents);
-            AscentGimmickHandler.RegisterAscent<OccultStatueGimmick>(newAscents);
             AscentGimmickHandler.RegisterAscent<HelpingIsBadGimmick>(newAscents);
+            AscentGimmickHandler.RegisterAscent<OccultStatueGimmick>(newAscents);
             AscentGimmickHandler.RegisterAscent<SkeletonGimmick>(newAscents);
 
             ascentData.ascents = newAscents;
