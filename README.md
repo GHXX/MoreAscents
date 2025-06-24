@@ -18,4 +18,6 @@ Ascent 10 - You're more vulnerable to everything but Injuries, Hunger and Weight
 Ascent 11 - Helping people up makes you drowsy.<br>
 Ascent 12 - No more Revive Statues.
 
+Chaos 1 - Going unconscious is instant death
+
 
