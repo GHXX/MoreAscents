@@ -14,7 +14,9 @@ public class AscentGimmick
     {
         return "";
     }
-    
+
+    public virtual void CharacterPassedOut(Character character) { }
+
     public virtual void OnCharacterFall(Character character) { }
     public virtual void RespawnChestExisted(Spawner chest) {}
     public virtual void SpawnerSpawnItems(Spawner spawner,ref List<Transform> spawnSpots) { }

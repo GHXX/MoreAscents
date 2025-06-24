@@ -34,11 +34,12 @@ namespace MoreAscents
             
             // custom ones
             AscentGimmickHandler.RegisterAscent<FallDamageGimmick>(newAscents);
-            AscentGimmickHandler.RegisterAscent<LuggageGimmick>(newAscents);
             AscentGimmickHandler.RegisterAscent<AfflictionGimmick>(newAscents);
-            AscentGimmickHandler.RegisterAscent<HelpingIsBadGimmick>(newAscents);
+            AscentGimmickHandler.RegisterAscent<LuggageGimmick>(newAscents);
             AscentGimmickHandler.RegisterAscent<OccultStatueGimmick>(newAscents);
-            
+            AscentGimmickHandler.RegisterAscent<HelpingIsBadGimmick>(newAscents);
+            AscentGimmickHandler.RegisterAscent<SkeletonGimmick>(newAscents);
+
             ascentData.ascents = newAscents;
 
             // Plugin startup logic

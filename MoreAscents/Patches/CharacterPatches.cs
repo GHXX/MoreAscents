@@ -37,6 +37,18 @@ public class CharacterPatches
         }
     }
     
+    [HarmonyPatch(typeof(Character), "RPCA_PassOut")]
+    public static class RPCA_PassOut {
+        [HarmonyPostfix]
+        public static void Prefix(Character __instance) {
+            foreach (AscentGimmick gimmick in AscentGimmickHandler.gimmicks) {
+                if (!gimmick.active)
+                    continue;
+                gimmick.CharacterPassedOut(__instance);
+            }
+        }
+    }
+    
     [HarmonyPatch(typeof(CharacterAfflictions), "UpdateNormalStatuses")]
     public static class UpdateNormalStatuses {
         public static bool InUpdateNormalStatuses = false;
