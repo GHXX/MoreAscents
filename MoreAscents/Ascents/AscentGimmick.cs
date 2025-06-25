@@ -24,6 +24,9 @@ public class AscentGimmick
     public virtual void SpawnerSpawnItems(Spawner spawner,ref List<Transform> spawnSpots) { }
     public virtual void OnGrabbedCharacter(Character thisCharacter) { }
     public virtual void OnUpdateNormalStatuses(Character character) {}
+    
+    public virtual void Update() { }
+
     public virtual float AfflictionMultiplier(CharacterAfflictions afflictions, CharacterAfflictions.STATUSTYPE statusType,float amount) {
         return 0f;
     }

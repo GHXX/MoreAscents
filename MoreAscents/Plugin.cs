@@ -37,7 +37,8 @@ namespace MoreAscents
             AscentGimmickHandler.RegisterAscent<SkeletonGimmick>(newAscents);
             AscentGimmickHandler.RegisterAscent<CampfireGimmick>(newAscents);
             AscentGimmickHandler.RegisterAscent<SunHotGimmick>(newAscents);
-            
+            AscentGimmickHandler.RegisterAscent<BingBongGimmick>(newAscents);
+
             // cant get this working
             //AscentGimmickHandler.RegisterAscent<FogGimmick>(newAscents);
 
@@ -52,6 +53,15 @@ namespace MoreAscents
 
         private void Update() {
             GUIManagerPatches.Grasp.SinceLastGrab += Time.deltaTime;
+
+            BingBongPatches.Update.BingBongUnheldFor += Time.deltaTime;
+            
+            foreach (AscentGimmick gimmick in AscentGimmickHandler.gimmicks) {
+                if (!gimmick.active) {
+                    continue;
+                }
+                gimmick.Update();
+            }
         }
     }
 
