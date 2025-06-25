@@ -54,7 +54,13 @@ public class CharacterPatches
         public static bool InUpdateNormalStatuses = false;
         
         [HarmonyPrefix]
-        public static void Prefix() {
+        public static void Prefix(CharacterAfflictions __instance) {
+            foreach (AscentGimmick gimmick in AscentGimmickHandler.gimmicks) {
+                if (!gimmick.active)
+                    continue;
+                gimmick.OnUpdateNormalStatuses(__instance.character);
+            }
+            
             InUpdateNormalStatuses = true;
         }
         
