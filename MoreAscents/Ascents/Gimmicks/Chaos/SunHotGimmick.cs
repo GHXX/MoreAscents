@@ -28,7 +28,7 @@ public class SunHotGimmick : AscentGimmick {
             //Plugin.Logger.LogWarning(hit.transform.gameObject.name);
         }
         else {
-            character.refs.afflictions.AddStatus(CharacterAfflictions.STATUSTYPE.Hot, 0.00125f * Time.deltaTime, false);
+            character.refs.afflictions.AddStatus(CharacterAfflictions.STATUSTYPE.Hot, 0.0025f * Time.deltaTime, false);
         }
     }
 }
