@@ -35,6 +35,7 @@ namespace MoreAscents
             
             // chaos ones
             AscentGimmickHandler.RegisterAscent<SkeletonGimmick>(newAscents);
+            AscentGimmickHandler.RegisterAscent<CampfireGimmick>(newAscents);
             
             // cant get this working
             //AscentGimmickHandler.RegisterAscent<FogGimmick>(newAscents);
