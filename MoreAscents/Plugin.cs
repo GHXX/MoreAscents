@@ -32,7 +32,12 @@ namespace MoreAscents
             AscentGimmickHandler.RegisterAscent<LuggageGimmick>(newAscents);
             AscentGimmickHandler.RegisterAscent<HelpingIsBadGimmick>(newAscents);
             AscentGimmickHandler.RegisterAscent<OccultStatueGimmick>(newAscents);
+            
+            // chaos ones
             AscentGimmickHandler.RegisterAscent<SkeletonGimmick>(newAscents);
+            
+            // cant get this working
+            //AscentGimmickHandler.RegisterAscent<FogGimmick>(newAscents);
 
             ascentData.ascents = newAscents;
 

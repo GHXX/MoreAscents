@@ -16,7 +16,8 @@ public class AscentGimmick
     }
 
     public virtual void CharacterPassedOut(Character character) { }
-
+    public virtual void OnLavaExisted(Lava lava) { }
+    public virtual void OnFogInitNewSphere(OrbFogHandler __instance) { }
     public virtual void OnCharacterFall(Character character) { }
     public virtual void RespawnChestExisted(Spawner chest) {}
     public virtual void SpawnerSpawnItems(Spawner spawner,ref List<Transform> spawnSpots) { }
