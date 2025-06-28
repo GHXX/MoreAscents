@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using HarmonyLib;
+using MoreAscents.API;
 using MoreAscents.Patches;
 using Zorro.Core;
 using Logger = UnityEngine.Logger;
@@ -12,49 +13,39 @@ using Logger = UnityEngine.Logger;
 namespace MoreAscents
 {
     [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
-    public class Plugin : BaseUnityPlugin
+    internal class Plugin : BaseUnityPlugin
     {
         internal static new ManualLogSource Logger;
 
         private void Awake()
         {
-            var ascentData = AscentData.Instance;
-            List<AscentData.AscentInstanceData> ascents = ascentData.ascents;
-            List<AscentData.AscentInstanceData> newAscents = new List<AscentData.AscentInstanceData>();
-
-            foreach (AscentData.AscentInstanceData data in ascents) {
-                newAscents.Add(data);
-            }
-
+            Logger = base.Logger;
+            
             // custom ones
-            AscentGimmickHandler.RegisterAscent<FallDamageGimmick>(newAscents);
-            AscentGimmickHandler.RegisterAscent<AfflictionGimmick>(newAscents);
-            AscentGimmickHandler.RegisterAscent<LuggageGimmick>(newAscents);
-            AscentGimmickHandler.RegisterAscent<HelpingIsBadGimmick>(newAscents);
-            AscentGimmickHandler.RegisterAscent<OccultStatueGimmick>(newAscents);
+            AscentGimmickHandler.RegisterAscent<FallDamageGimmick>();
+            AscentGimmickHandler.RegisterAscent<AfflictionGimmick>();
+            AscentGimmickHandler.RegisterAscent<LuggageGimmick>();
+            AscentGimmickHandler.RegisterAscent<HelpingIsBadGimmick>();
+            AscentGimmickHandler.RegisterAscent<OccultStatueGimmick>();
             
             // chaos ones
-            AscentGimmickHandler.RegisterAscent<SkeletonGimmick>(newAscents);
-            AscentGimmickHandler.RegisterAscent<CampfireGimmick>(newAscents);
-            AscentGimmickHandler.RegisterAscent<SunHotGimmick>(newAscents);
-            AscentGimmickHandler.RegisterAscent<BingBongGimmick>(newAscents);
-
-            // cant get this working
-            //AscentGimmickHandler.RegisterAscent<FogGimmick>(newAscents);
-
-            ascentData.ascents = newAscents;
-
-            // Plugin startup logic
-            Logger = base.Logger;
+            AscentGimmickHandler.RegisterAscent<SkeletonGimmick>();
+            AscentGimmickHandler.RegisterAscent<CampfireGimmick>();
+            AscentGimmickHandler.RegisterAscent<SunHotGimmick>();
+            AscentGimmickHandler.RegisterAscent<BingBongGimmick>();
+            
+            AscentGimmickHandler.Initialize();
+            
             Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
-            Harmony harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
+            
+            Harmony harmony = new(MyPluginInfo.PLUGIN_GUID);
             harmony.PatchAll();
         }
 
         private void Update() {
             GUIManagerPatches.Grasp.SinceLastGrab += Time.deltaTime;
 
-            BingBongPatches.Update.BingBongUnheldFor += Time.deltaTime;
+            BingBongMechanics.BingBongUnheldFor += Time.deltaTime;
             
             foreach (AscentGimmick gimmick in AscentGimmickHandler.gimmicks) {
                 if (!gimmick.active) {
@@ -66,9 +57,9 @@ namespace MoreAscents
     }
 
     [HarmonyPatch(typeof(BoardingPass), "UpdateAscent")]
-    public static class boarding_initilize_patch
+    internal static class boarding_initilize_patch
     {
-        public static void Prefix(BoardingPass __instance)
+        internal static void Prefix(BoardingPass __instance)
         {
             if (Input.GetKey(KeyCode.L)) {
                 Singleton<AchievementManager>.Instance.SetSteamStat(STEAMSTATTYPE.MaxAscent, 155);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MoreAscents.API;
 using MoreAscents.Patches;
 using UnityEngine;
 using Zorro.Core;
@@ -25,18 +26,18 @@ public class BingBongGimmick : AscentGimmick {
                 continue;
             }
             if (character.data.passedOutOnTheBeach > 0) {
-                BingBongPatches.Update.BingBongUnheldFor = 0;
+                BingBongMechanics.BingBongUnheldFor = 0;
                 break;
             }
             
-            if (BingBongPatches.Update.BingBongUnheldFor > 10 && BingBongPatches.Update.BingBongUnheldFor <= 15) {
+            if (BingBongMechanics.BingBongUnheldFor > 10 && BingBongMechanics.BingBongUnheldFor <= 15) {
                 if (SinceLastShake > 1 / 60) {
                     SinceLastShake = 0;
                     GamefeelHandler.instance.AddPerlinShake(0.14f,0.15f,4f);
                 }
             }
 
-            if (BingBongPatches.Update.BingBongUnheldFor < 15) {
+            if (BingBongMechanics.BingBongUnheldFor < 15) {
                 continue;
             }
             character.refs.afflictions.AddStatus(CharacterAfflictions.STATUSTYPE.Crab, 0.05f * Time.deltaTime, false);

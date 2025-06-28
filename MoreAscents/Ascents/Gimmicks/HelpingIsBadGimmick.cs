@@ -6,6 +6,10 @@ namespace MoreAscents;
 
 public class HelpingIsBadGimmick : AscentGimmick
 {
+    public override string GetTitle() {
+        return "Ascent 11";
+    }
+    
     public override string GetDescription() {
         return "Helping makes you drowsy.";
     }

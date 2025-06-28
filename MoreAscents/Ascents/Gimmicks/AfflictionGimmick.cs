@@ -6,6 +6,10 @@ namespace MoreAscents;
 
 public class AfflictionGimmick : AscentGimmick
 {
+    public override string GetTitle() {
+        return "Ascent 9";
+    }
+    
     public override string GetDescription() {
         return "You're more vulnerable to everything but Injuries, Hunger and Weight.";
     }

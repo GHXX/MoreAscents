@@ -3,73 +3,105 @@ using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using MoreAscents.Patches;
+using UnityEngine;
 
 namespace MoreAscents;
 
 public class AscentGimmickHandler
 {
-    public static List<AscentGimmick> gimmicks = new();
+    internal static readonly List<AscentGimmick> gimmicks = new();
 
-    public static void MarkGimmickAsActive(AscentData.AscentInstanceData instanceData) {
-        int activeOrder = 0;
-        foreach (AscentGimmick gimmick in gimmicks) {
-            if (gimmick._ascentData.data == instanceData) {
-                activeOrder = gimmick._ascentData.order;
-                break;
-            }
-        }
-        foreach (AscentGimmick gimmick in gimmicks) {
-            if (gimmick._ascentData.order <= activeOrder) {
+    internal static void MarkGimmicksAsActive(int ascentIndex) {
+        int index = 0;
+        foreach (AscentData.AscentInstanceData data in AscentData.Instance.ascents) {
+            AscentGimmick gimmick = GetGimmickByData(data);
+            if (index <= ascentIndex && gimmick != null) {
                 gimmick.active = true;
-                Plugin.Logger.LogWarning($"gimmick {gimmick.GetType().Name} is now active.");
+                Plugin.Logger.LogWarning($"enabled gimmick {gimmick.GetType().Name} [{gimmick.GetTitle()}]!");
             }
-        }
-    }
-    
-    public static void DisableGimmicks() {
-        foreach (AscentGimmick gimmick in gimmicks) {
-            gimmick.active = false;
+            index++;
         }
     }
 
-    public static AscentGimmick GetGimmick<T>() where T : AscentGimmick
-    {
-        foreach (AscentGimmick gimmick in gimmicks)
-        {
-            if (gimmick.GetType() == typeof(T))
+    public static AscentGimmick GetGimmickByData(AscentData.AscentInstanceData data) {
+        foreach (AscentGimmick gimmick in gimmicks) {
+            if (gimmick._ascentData.data == data) {
                 return gimmick;
+            }
         }
         return null;
     }
     
-    public static bool IsGimmickActive<T>() where T : AscentGimmick
-    {
-        foreach (AscentGimmick gimmick in gimmicks)
-        {
-            if (gimmick.GetType() == typeof(T))
-                return gimmick.active;
+    internal static void DisableGimmicks() {
+        foreach (AscentGimmick gimmick in gimmicks) {
+            gimmick.active = false;
         }
-        return false;
     }
     
-    public static void RegisterAscent<T>(List<AscentData.AscentInstanceData> ascents) where T : AscentGimmick
-    {
-        AscentGimmick gimmick = Activator.CreateInstance<T>();
+    private static readonly List<AscentData.AscentInstanceData> pendingDatas = [];
+    private static bool HasInitialized = false;
+
+    internal static void Initialize() {
+        if (HasInitialized) {
+            Plugin.Logger.LogError($"already initialized");
+            return;
+        }
+
+        HasInitialized = true;
         
-        AscentData.AscentInstanceData newData = new();
-        newData.title = gimmick.GetTitle();
-        if (newData.title == "") {
-            newData.title = $"Ascent {(ascents.Count - 2) + 1}";
+        AscentData ascentData = AscentData.Instance;
+
+        List<AscentData.AscentInstanceData> originalDatas = ascentData.ascents;
+        List<AscentData.AscentInstanceData> newDatas = [];
+        
+        Plugin.Logger.LogInfo($"initializing with ({pendingDatas.Count} custom) and ({originalDatas.Count} base)");
+        
+        foreach (AscentData.AscentInstanceData data in originalDatas) {
+            HotLoadAscentInstanceData(newDatas,data);
         }
         
-        newData.description = gimmick.GetDescription();
-        newData.titleReward = "A pat on the back";
-        ascents.Add(newData);
+        // customs
+        foreach (AscentData.AscentInstanceData data in pendingDatas) {
+            HotLoadAscentInstanceData(newDatas,data);
+        }
 
-        gimmick._ascentData = new AscentStruct() {
+        ascentData.ascents = newDatas;
+    }
+
+    private static void HotLoadAscentInstanceData(List<AscentData.AscentInstanceData> targetList,AscentData.AscentInstanceData data) {
+        if (data.titleReward == "") {
+            data.titleReward = $"{data.title} Conqueror";
+        }
+        targetList.Add(data);
+    }
+    
+    public static void RegisterAscent<T>() where T : AscentGimmick
+    {
+        AscentGimmick gimmick = Activator.CreateInstance<T>();
+        /*if (gimmick.GetTitle() == "") {
+            newData.title = $"Ascent {7 + gimmicks.Count+1}";
+        }*/
+        
+        AscentData.AscentInstanceData newData = new() {
+            title = gimmick.GetTitle(),
+            description = gimmick.GetDescription(),
+            titleReward = gimmick.GetTitleReward(),
+            color = gimmick.GetColor(),
+            sashSprite = AscentData.Instance.ascents[0].sashSprite,
+        };
+        
+        gimmick._ascentData = new AscentStruct {
             data = newData,
-            order = ascents.Count,
+            order = 9 + (gimmicks.Count + 1),
         };
         gimmicks.Add(gimmick);
+
+        if (HasInitialized) {
+            HotLoadAscentInstanceData(AscentData.Instance.ascents,newData);
+            Plugin.Logger.LogInfo($"Hot loaded {newData.title}!");
+            return;
+        }
+        pendingDatas.Add(newData);
+        Plugin.Logger.LogInfo($"Queued {newData.title}");
     }
 }

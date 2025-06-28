@@ -1,20 +1,19 @@
 ﻿using HarmonyLib;
 using System.Collections.Generic;
+using MoreAscents.API;
 using UnityEngine;
 
 namespace MoreAscents.Patches;
 
-public class BingBongPatches
+internal class BingBongPatches
 {
     [HarmonyPatch(typeof(BingBongsVisuals), "Update")]
-    public static class Update {
-        public static float BingBongUnheldFor = 0;
-        
+    internal static class Update {
         [HarmonyPrefix]
-        public static void Prefix(BingBongsVisuals __instance) {
+        internal static void Prefix(BingBongsVisuals __instance) {
             Item item = __instance.GetComponent<Item>();
             if (item.itemState == ItemState.Held) {
-                BingBongUnheldFor = 0;
+                BingBongMechanics.BingBongUnheldFor = 0;
             }
         }
     }

@@ -14,6 +14,14 @@ public class AscentGimmick
     {
         return "";
     }
+    
+    public virtual Color GetColor() {
+        return Color.red;
+    }
+
+    public virtual string GetTitleReward() {
+        return "";
+    }
 
     public virtual void CharacterPassedOut(Character character) { }
     public virtual void OnLavaExisted(Lava lava) { }
