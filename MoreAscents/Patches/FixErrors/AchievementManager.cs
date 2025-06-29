@@ -9,8 +9,31 @@ internal static class AchievementManagerPatches
     {
         [HarmonyPostfix]
         internal static void Postfix(ref int __result) {
+            __result = Plugin.ascentsUnlocked.Value;
             if (__result > AscentData.Instance.ascents.Count-1) {
                 __result = AscentData.Instance.ascents.Count-1;
+            }
+        }
+    }
+    
+    [HarmonyPatch(typeof(AchievementManager),"Start")]
+    internal static class Start {
+        [HarmonyPrefix]
+        internal static void Prefix() {
+            Plugin.Init();
+        }
+    }
+    
+    [HarmonyPatch(typeof(AchievementManager), nameof(AchievementManager.SetSteamStat))]
+    internal static class SetSteamStat {
+        [HarmonyPrefix]
+        internal static void Prefix(STEAMSTATTYPE steamStatType, ref int value) {
+            if (steamStatType != STEAMSTATTYPE.MaxAscent)
+                return;
+            
+            Plugin.ascentsUnlocked.Value = value;
+            if (value > AscentGimmickHandler.BaseAscents-2) {
+                value = AscentGimmickHandler.BaseAscents-2;
             }
         }
     }

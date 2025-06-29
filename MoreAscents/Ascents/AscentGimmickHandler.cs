@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace MoreAscents;
 
-public class AscentGimmickHandler
+public static class AscentGimmickHandler
 {
     internal static readonly List<AscentGimmick> gimmicks = new();
 
@@ -36,6 +36,18 @@ public class AscentGimmickHandler
         foreach (AscentGimmick gimmick in gimmicks) {
             gimmick.active = false;
         }
+    }
+
+    internal static int BaseAscents {
+        get;
+        private set;
+    } = -1;
+    
+    internal static int GetBaseAscentCount() {
+        if (BaseAscents == -1) {
+            BaseAscents = AscentData.Instance.ascents.Count;
+        }
+        return BaseAscents;
     }
     
     private static readonly List<AscentData.AscentInstanceData> pendingDatas = [];

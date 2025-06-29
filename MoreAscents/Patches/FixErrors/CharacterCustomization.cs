@@ -9,8 +9,8 @@ internal static class CharacterCustomizationPatches
     {
         [HarmonyPrefix]
         internal static void Prefix(ref int index) {
-            if (index > 7) {
-                index = 7;
+            if (index > AscentGimmickHandler.BaseAscents-2) {
+                index = AscentGimmickHandler.BaseAscents-2;
             }
         }
     }

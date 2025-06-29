@@ -3,10 +3,12 @@ using BepInEx;
 using BepInEx.Logging;
 using System.Collections.Generic;
 using System.Reflection;
+using BepInEx.Configuration;
 using UnityEngine;
 using HarmonyLib;
 using MoreAscents.API;
 using MoreAscents.Patches;
+using Steamworks;
 using Zorro.Core;
 using Logger = UnityEngine.Logger;
 
@@ -16,10 +18,19 @@ namespace MoreAscents
     internal class Plugin : BaseUnityPlugin
     {
         internal static new ManualLogSource Logger;
-
-        private void Awake()
-        {
+        
+        // fix an issue that causes people to break when the mod is uninstalled after beating an ascent higher than 7
+        internal static ConfigEntry<int> ascentsUnlocked;
+        
+        private void Awake() {
             Logger = base.Logger;
+            
+            ascentsUnlocked = Config.Bind("General",      // The section under which the option is shown
+                "MaxAscent",  // The key of the configuration option in the configuration file
+                0, // The default value
+                ""); // Description of the option to show in the config file
+
+            AscentGimmickHandler.GetBaseAscentCount();
             
             // custom ones
             AscentGimmickHandler.RegisterAscent<FallDamageGimmick>();
@@ -40,6 +51,22 @@ namespace MoreAscents
             
             Harmony harmony = new(MyPluginInfo.PLUGIN_GUID);
             harmony.PatchAll();
+        }
+
+        private static bool Initted = false;
+        internal static void Init() {
+            if (Initted) {
+                return;
+            }
+            Initted = true;
+            if (Singleton<AchievementManager>.Instance.GetSteamStatInt(STEAMSTATTYPE.MaxAscent, out int maxAscents)) {
+                if (maxAscents > AscentGimmickHandler.BaseAscents) {
+                    Singleton<AchievementManager>.Instance.SetSteamStat(STEAMSTATTYPE.MaxAscent,AscentGimmickHandler.BaseAscents);
+                }
+                ascentsUnlocked.Value = ascentsUnlocked.Value < maxAscents ? maxAscents : ascentsUnlocked.Value;
+            }
+            
+            Logger.LogInfo($"Initted");
         }
 
         private void Update() {
