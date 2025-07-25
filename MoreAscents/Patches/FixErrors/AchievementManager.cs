@@ -32,8 +32,8 @@ internal static class AchievementManagerPatches
                 return;
             
             Plugin.ascentsUnlocked.Value = value;
-            if (value > AscentGimmickHandler.BaseAscents-2) {
-                value = AscentGimmickHandler.BaseAscents-2;
+            if (value > AscentGimmickHandler.BaseAscents-1) {
+                value = AscentGimmickHandler.BaseAscents-1;
             }
         }
     }
