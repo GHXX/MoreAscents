@@ -14,6 +14,6 @@ public class OccultStatueGimmick : AscentGimmick
     }
 
     public override void RespawnChestExisted(Spawner chest) {
-        chest.gameObject.SetActive(false);
+        //chest.gameObject.SetActive(false);
     }
 }
