@@ -3,6 +3,10 @@
 
 Adds 5 more ascents to the game for those who want to challenge themselves just a little bit more.
 
+[!NOTE]
+You can now disable ascent 7 and 12 in the config for this mod located under (gamelocation)\BepInEx\config\MoreAscents.json or the config editor from r2modman/Thunderstore Mod Manager. <br>
+The code used for this was provided by [GHXX](https://github.com/GHXX) on discord.
+
 !!! You can unlock all ascents by holding L when opening the terminal, THIS IS PERMANENT!
 
 ## List of all new ascents this mod adds:
