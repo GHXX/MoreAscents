@@ -6,7 +6,6 @@ using System.Reflection;
 using BepInEx.Configuration;
 using UnityEngine;
 using HarmonyLib;
-using MoreAscents.API;
 using MoreAscents.Patches;
 using Steamworks;
 using Zorro.Core;
@@ -45,7 +44,6 @@ namespace MoreAscents
             AscentGimmickHandler.RegisterAscent<SkeletonGimmick>();
             AscentGimmickHandler.RegisterAscent<CampfireGimmick>();
             AscentGimmickHandler.RegisterAscent<SunHotGimmick>();
-            AscentGimmickHandler.RegisterAscent<BingBongGimmick>();
             
             AscentGimmickHandler.Initialize();
             
@@ -74,7 +72,6 @@ namespace MoreAscents
         private void Update() {
             GUIManagerPatches.Grasp.SinceLastGrab += Time.deltaTime;
 
-            BingBongMechanics.BingBongUnheldFor += Time.deltaTime;
             
             foreach (AscentGimmick gimmick in AscentGimmickHandler.gimmicks) {
                 if (!gimmick.active) {

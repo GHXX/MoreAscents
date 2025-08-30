@@ -567,4 +567,8 @@
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\PEAK\PEAK_Data\Managed\Zorro.UI.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="API\" />
+  </ItemGroup>
 </Project>
