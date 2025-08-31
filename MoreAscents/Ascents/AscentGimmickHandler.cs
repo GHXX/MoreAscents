@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using MoreAscents.Patches;
 using UnityEngine;
@@ -115,5 +116,16 @@ public static class AscentGimmickHandler
         }
         pendingDatas.Add(newData);
         Plugin.Logger.LogInfo($"Queued {newData.title}");
+
+        void AddIdentityTranslation(string key, string val) {
+            if (string.IsNullOrWhiteSpace(key)) {
+                throw new NotImplementedException($"translation was empty?? {typeof(T)}");
+            }
+            LocalizedText.mainTable.Add(key.ToUpperInvariant(), Enumerable.Repeat(val.ToUpperInvariant(), LocalizedText.LANGUAGE_COUNT).ToList());
+        }
+
+        int ascentId = gimmick._ascentData.order - 2;
+        AddIdentityTranslation(gimmick.GetTitle(),gimmick.GetTitle());
+        AddIdentityTranslation($"desc_{gimmick.GetTitle()}",gimmick.GetDescription());
     }
 }
