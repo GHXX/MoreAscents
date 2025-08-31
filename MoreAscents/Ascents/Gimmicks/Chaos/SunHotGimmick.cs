@@ -18,7 +18,8 @@ public class SunHotGimmick : AscentGimmick {
             return;
         if (DayNightManager.instance.isDay < 0.5f)
             return;
-        if (Singleton<MountainProgressHandler>.Instance.maxProgressPointReached >= 3)
+        var progressHandler = Singleton<MountainProgressHandler>.Instance;
+        if (progressHandler == null || progressHandler.maxProgressPointReached >= 3)
             return;
         
         Vector3 sunDir = -RenderSettings.sun.transform.forward;
