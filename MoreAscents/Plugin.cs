@@ -1,16 +1,12 @@
-﻿using System;
-using BepInEx;
+﻿using BepInEx;
 using BepInEx.Logging;
-using System.Collections.Generic;
 using System.Reflection;
 using BepInEx.Configuration;
 using UnityEngine;
 using HarmonyLib;
 using MoreAscents.Patches;
-using Steamworks;
 using Zorro.Core;
 using Logger = UnityEngine.Logger;
-// test
 
 namespace MoreAscents
 {
@@ -45,6 +41,7 @@ namespace MoreAscents
             AscentGimmickHandler.RegisterAscent<SkeletonGimmick>();
             AscentGimmickHandler.RegisterAscent<CampfireGimmick>();
             AscentGimmickHandler.RegisterAscent<SunHotGimmick>();
+            AscentGimmickHandler.RegisterAscent<BingBongGimmick>();
             
             AscentGimmickHandler.Initialize();
             
@@ -72,7 +69,6 @@ namespace MoreAscents
 
         private void Update() {
             GUIManagerPatches.Grasp.SinceLastGrab += Time.deltaTime;
-
             
             foreach (AscentGimmick gimmick in AscentGimmickHandler.gimmicks) {
                 if (!gimmick.active) {
